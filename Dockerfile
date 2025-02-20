@@ -55,7 +55,7 @@ RUN chown -R nginx:nginx /usr/share/nginx/html && \
 
 
 # Expose non-privileged port
-EXPOSE 8080
+EXPOSE 8080 8443
 
 
 # Start Nginx
