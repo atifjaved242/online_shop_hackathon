@@ -63,46 +63,68 @@ I reviewed the codebase to understand how the application is structured:
 
 During the process, I used various Linux commands:
 
-- **File Management:** `ls -lah`, `cp`, `rm -rf`
-- **Process Monitoring:** `ps aux | grep nginx`, `top`, `htop`
+- **File Management:**
+  - `ls -lah` - - List all files (including hidden) with detailed permissions and human-readable sizes
+  - `cp` - Copy files and directories
+  - `rm -rf` - Recursively remove files and directories (use with caution)
+
+- **Process Monitoring:**
+  - `ps aux | grep nginx` - Search for running Nginx processes
+  - `top` - Display real-time system process information
 
 - **Resolved Networking Issues:**
-  - `nslookup registry-1.docker.io`
-  - `curl -v https://registry-1.docker.io/v2/`
-  - `sudo netstat -tulnp | grep 8080`
-  - `sudo systemctl stop ufw`
+  - `nslookup registry-1.docker.io` - DNS lookup for Docker registry
+  - `curl -v https://registry-1.docker.io/v2/` - Test connectivity to Docker registry
+  - `sudo netstat -tulnp | grep 8080` - Check processes listening on port 8080
+  - `sudo systemctl stop ufw` - Disable Ubuntu firewall (optinally)
 
 - **System Management:**
-  - `cat /etc/os-release`
-  - `sudo lsof -i :8080`
-  - `sudo nano /etc/resolv.conf`, add the following to it
-        ```plaintext
-        nameserver 8.8.8.8
-        nameserver 8.8.4.4
-        ```
-  - `sudo systemctl restart networking`
-  - `sudo kill -9 <PID>`
+  - `cat /etc/os-release` - Display OS version information
+  - `sudo lsof -i :8080` - List processes using port 8080
+  - `sudo nano /etc/resolv.conf` - Edit DNS resolver configuration, by adding the following
 
-- **Docker Commands:**
-  - `docker build -t online-shop .`
-  - `docker run -d -p 9090:8080 online-shop`
-  - `docker ps`
-  - `docker logs <container_id>`
-  - `docker inspect <container_id>`
-  - `docker stop $(docker ps -aq)`
-  - `docker rm $(docker ps -aq)`
-  - `docker rmi $(docker ps -aq)`
-  - `docker system prune -f`
+    ```plaintext
+    nameserver 8.8.8.8
+    nameserver 8.8.4.4
+    ```
 
-- **Git Commands:**
-  - `git checkout -b <new-branch-name>`
-  - `git checkout <branch-name>`
-  - `git branch`
-  - `git add .` OR `git add <filename>`
-  - `git commit -m "commit message"`
-  - `git push origin <branch-name>`
+  - `sudo systemctl restart networking` - Restart network services
+  - `sudo kill -9 <PID>` - Force terminate a process
 
-### **5. Git Branching Strategy**
+### **5. Docker Commands Used:**
+
+#### **Container Management**
+
+- `docker build -t online-shop .`  Build image named 'online-shop'
+- `docker run -d -p 9090:8080 online-shop` - Run container in background, map ports
+- `docker ps` - List running containers
+- `docker logs <container_id>` - View container logs
+- `docker inspect <container_id>` -  - Show detailed container information
+
+#### **Cleanup Commands**
+
+- `docker stop $(docker ps -aq)` - Stop all containers
+- `docker rm $(docker ps -aq)` - Remove all containers
+- `docker images` - List all images
+- `docker rmi <image_id>` - Remove specific image
+- `docker system prune -f` - Remove unused data
+
+### **6. Git Commands**
+
+#### **Branch Operations**
+
+- `git checkout -b <new-branch-name>` - Create and switch to new branch
+- `git checkout <branch-name>` - Switch to existing branch
+- `git branch` - List branches
+
+#### **Code Management**
+
+- `git add .` - Stage all changes
+- `git add <filename>` - Stage specific file
+- `git commit -m "commit message"` - Commit staged changes
+- `git push origin <branch-name>` - Push commits to remote repository
+
+### **7. Git Branching Strategy**
 
 I followed **Git best practices** by:
 
@@ -112,7 +134,7 @@ I followed **Git best practices** by:
 - Committing changes with meaningful messages
 - Keeping the main branch clean
 
-### **6. Debugging Docker Network Issues**
+### **8. Debugging Docker Network Issues**
 
 I faced and resolved the following networking issues:
 
@@ -146,7 +168,7 @@ I faced and resolved the following networking issues:
 3. **Run the Container:**
 
    ```bash
-   docker run -d --name=online-shop-app -p 9090:8080 online-shop
+   docker run -d --name online-shop-app -p 9090:8080 online-shop
    ```
 
 4. **Access the Application:**
